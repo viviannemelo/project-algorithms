@@ -16,11 +16,15 @@ def is_anagram(first_string, second_string):
 def merge_sort(string):
     if len(string) <= 1:
         return string
-    else:
-        mid = len(string) // 2
-        left = merge_sort(string[:mid])
-        right = merge_sort(string[:mid])
-        return merge(left, right)
+
+    mid = len(string) // 2
+    left = string[:mid]
+    right = string[mid:]
+
+    left = merge_sort(left)
+    right = merge_sort(right)
+
+    return merge(left, right)
 
 
 def merge(left, right):
@@ -37,4 +41,4 @@ def merge(left, right):
     return result_sort
 
 
-print(is_anagram('amor', 'roma'))
+# print(is_anagram('amor', 'roma'))
