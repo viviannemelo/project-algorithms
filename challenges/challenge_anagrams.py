@@ -1,25 +1,40 @@
 def is_anagram(first_string, second_string):
-    str1 = first_string.lower()
-    str2 = second_string.lower()
-    sorted_str1 = sort(str1)
-    sorted_str2 = sort(str2)
-    if len(sorted_str1) | len(sorted_str2) == 0:
-        return (first_string, second_string, False)
-    result_str1 = ''.join(sorted_str1)
-    result_str2 = ''.join(sorted_str2)
-    return (result_str1, result_str2, result_str1 == result_str2)
+    array = [list(first_string.lower()), list(second_string.lower())]
+
+    for index in range(len(array)):
+        array[index] = merge_sort(array[index])
+        array[index] = "".join(array[index])
+
+    if len(array[0]) == 0 or first_string is None:
+        return ("", array[1], False)
+    elif len(array[1]) == 0 or second_string is None:
+        return (array[0], "", False)
+    else:
+        return (array[0], array[1], array[0] == array[1])
 
 
-def sort(string):
-    if len(string) < 2:
+def merge_sort(string):
+    if len(string) <= 1:
         return string
     else:
-        mid = string.pop(0)
-        left = []
-        right = []
-        for i in string:
-            right.append(i) if i <= mid else left.append(i)
-        return sort(right) + [mid] + sort(left)
+        mid = len(string) // 2
+        left = merge_sort(string[:mid])
+        right = merge_sort(string[:mid])
+        return merge(left, right)
 
 
-# print(is_anagram('ave', 'eva'))
+def merge(left, right):
+    result_sort = []
+    # left = 0
+    # right = 0
+    while left and right:
+        if left[0] <= right[0]:
+            result_sort.append(left.pop(0))
+        else:
+            result_sort.append(right.pop(0))
+    result_sort.extend(left)
+    result_sort.extend(right)
+    return result_sort
+
+
+print(is_anagram('amor', 'roma'))
